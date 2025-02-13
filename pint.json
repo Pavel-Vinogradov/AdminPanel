@@ -1,0 +1,17 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "simplified_null_return": true,
+        "array_indentation": false,
+        "new_with_parentheses": {
+            "anonymous_class": true,
+            "named_class": true
+        },
+        "no_extra_blank_lines": {
+            "tokens": ["extra"]
+        },
+        "braces": {
+            "position_after_control_structures": "next"
+        }
+    }
+}
