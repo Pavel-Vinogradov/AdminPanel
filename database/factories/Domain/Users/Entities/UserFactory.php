@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories\Domain\Users\Entities;
 
 use App\Domain\Users\Entities\User;
@@ -7,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class UserFactory extends Factory
+final class UserFactory extends Factory
 {
     /**
      * The current password being used by the factory.

@@ -46,9 +46,7 @@ readonly class ArticleService implements ArticleServiceInterface
 
     public function update($id, ArticleDTO $articleDTO): Article
     {
-        $filteredArray = array_filter($articleDTO->toArray(), static function ($value) {
-            return $value !== null;
-        });
+        $filteredArray = array_filter($articleDTO->toArray(), static fn ($value) => $value !== null);
         $article = $this->repository->update($id, $filteredArray);
         if (! $article) {
             throw new BadRequestHttpException();

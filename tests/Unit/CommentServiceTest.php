@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Unit;
 
 use App\Domain\Comments\DTOs\CommentDTO;

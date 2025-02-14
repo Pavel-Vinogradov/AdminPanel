@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories\Domain\Comments\Entities;
 
 use App\Domain\Articles\Entities\Article;

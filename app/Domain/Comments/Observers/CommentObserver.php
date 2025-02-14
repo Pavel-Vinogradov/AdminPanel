@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Comments\Observers;
 
 use App\Domain\Comments\Entities\Comment;
+use App\Domain\Comments\Notifications\NewCommentNotification;
 use App\Domain\Users\Entities\User;
-use Notifications\NewCommentNotification;
 
 final class CommentObserver
 {

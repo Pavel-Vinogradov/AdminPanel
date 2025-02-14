@@ -33,7 +33,7 @@ final class PaginationDTO extends DataTransferObject
             'currentPage' => isset($data['page']) && is_numeric($data['page'])
                 ? max(1, (int) $data['page']) // Минимальное значение 1
                 : 1,
-            'search' => isset($data['search']) ? trim($data['search']) : null,
+            'search' => isset($data['search']) ? mb_trim($data['search']) : null,
         ]);
     }
 }

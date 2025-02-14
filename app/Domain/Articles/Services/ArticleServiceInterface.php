@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Articles\Services;
 
 use App\Core\DTO\PaginationDTO;

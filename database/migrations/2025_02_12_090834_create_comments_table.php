@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 use MongoDB\Laravel\Schema\Blueprint;
 
-return new class() extends Migration
-{
+return new class () extends Migration {
     public function up(): void
     {
-        Schema::connection('mongodb')->create('comments', function (Blueprint $collection) {
+        Schema::connection('mongodb')->create('comments', function (Blueprint $collection): void {
             $collection->integer('article_id');
             $collection->integer('user_id');
             $collection->text('body');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Comments\Notifications;
 
 use App\Domain\Comments\Entities\Comment;
@@ -30,10 +32,10 @@ final class NewCommentNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage())
             ->subject('Новый ответ на ваш комментарий')
-            ->greeting('Привет, '.$notifiable->name)
+            ->greeting('Привет, ' . $notifiable->name)
             ->line('Кто-то ответил на ваш комментарий:')
-            ->line('"'.$this->comment->body.'"')
-            ->action('Посмотреть', url('/articles/'.$this->comment->article_id))
+            ->line('"' . $this->comment->body . '"')
+            ->action('Посмотреть', url('/articles/' . $this->comment->article_id))
             ->line('Спасибо за участие в обсуждении!');
     }
 
@@ -42,7 +44,7 @@ final class NewCommentNotification extends Notification implements ShouldQueue
     {
         return [
             'article_id' => $this->comment->article_id,
-            'message' => 'Новый ответ на ваш комментарий: "'.$this->comment->body.'"',
+            'message' => 'Новый ответ на ваш комментарий: "' . $this->comment->body . '"',
         ];
     }
 
@@ -56,7 +58,7 @@ final class NewCommentNotification extends Notification implements ShouldQueue
     {
         return new BroadcastMessage([
             'article_id' => $this->comment->article_id,
-            'message' => 'Новый ответ на ваш комментарий: "'.$this->comment->body.'"',
+            'message' => 'Новый ответ на ваш комментарий: "' . $this->comment->body . '"',
         ]);
     }
 }

@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Domain\Users\Entities\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use JsonException;
 
-class ProfileTest extends TestCase
+final class ProfileTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -22,7 +25,7 @@ class ProfileTest extends TestCase
     }
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function test_profile_information_can_be_updated(): void
     {
@@ -65,7 +68,7 @@ class ProfileTest extends TestCase
     }
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function test_user_can_delete_their_account(): void
     {

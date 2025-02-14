@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Articles\Entities;
 
 use Eloquent;
@@ -19,7 +21,6 @@ use Illuminate\Support\Carbon;
  *
  * @method static Builder<static>|Article newModelQuery()
  * @method static Builder<static>|Article newQuery()
- * @method static Builder<static>|Article query()
  * @method static Builder<static>|Article whereContent($value)
  * @method static Builder<static>|Article whereCreatedAt($value)
  * @method static Builder<static>|Article whereId($value)

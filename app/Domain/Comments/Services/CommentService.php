@@ -14,12 +14,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-readonly class CommentService implements CommentServiceInterface
+final readonly class CommentService implements CommentServiceInterface
 {
     public function __construct(
         public CommentRepository $commentRepository,
         public UserRepository $userRepository
-    ) {}
+    ) {
+    }
 
     public function create(CommentDTO $commentDTO): Comment
     {

@@ -1,17 +1,48 @@
 {
-    "preset": "laravel",
+    "preset": "psr12",
+    "exclude": [
+        "config",
+        "bootstrap",
+        "lang",
+        "public",
+        "storage"
+    ],
     "rules": {
-        "simplified_null_return": true,
-        "array_indentation": false,
-        "new_with_parentheses": {
-            "anonymous_class": true,
-            "named_class": true
+        "align_multiline_comment": true,
+        "array_indentation": true,
+        "array_syntax": true,
+        "blank_line_after_namespace": true,
+        "blank_line_after_opening_tag": true,
+        "concat_space": {
+            "spacing": "one"
         },
-        "no_extra_blank_lines": {
-            "tokens": ["extra"]
+        "declare_parentheses": true,
+        "declare_strict_types": true,
+        "explicit_string_variable": true,
+        "final_class": false,
+        "fully_qualified_strict_types": true,
+        "global_namespace_import": {
+            "import_classes": true,
+            "import_constants": true,
+            "import_functions": true
         },
-        "braces": {
-            "position_after_control_structures": "next"
-        }
+        "is_null": true,
+        "lambda_not_used_import": true,
+        "logical_operators": true,
+        "mb_str_functions": true,
+        "method_chaining_indentation": true,
+        "modernize_strpos": true,
+        "new_with_braces": true,
+        "no_empty_comment": true,
+        "not_operator_with_space": false,
+        "ordered_traits": true,
+        "protected_to_private": true,
+        "simplified_if_return": false,
+        "strict_comparison": true,
+        "ternary_to_null_coalescing": false,
+        "trim_array_spaces": true,
+        "use_arrow_functions": true,
+        "void_return": true,
+        "yoda_style": false
     }
 }

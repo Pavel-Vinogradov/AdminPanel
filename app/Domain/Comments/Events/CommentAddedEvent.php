@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Comments\Events;
 
 use App\Domain\Comments\Entities\Comment;
@@ -11,14 +13,16 @@ use Illuminate\Queue\SerializesModels;
 
 final class CommentAddedEvent implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     public function __construct(public Comment $comment) {}
 
     public function broadcastOn(): array
     {
         return [
-            new PresenceChannel('articles.'.$this->comment->article_id),
+            new PresenceChannel('articles.' . $this->comment->article_id),
         ];
     }
 }
