@@ -10,6 +10,7 @@ use App\Domain\Comments\Events\CommentAddedEvent;
 use App\Domain\Comments\Notifications\NewCommentNotification;
 use App\Domain\Comments\Repositories\CommentRepository;
 use App\Domain\Comments\Services\CommentService;
+use App\Domain\Comments\Services\UserRepository;
 use App\Domain\Users\Entities\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,8 @@ final class CommentServiceTest extends TestCase
 
     protected CommentRepository $commentRepository;
 
+    protected UserRepository $userRepository;
+
     /**
      * @throws Exception
      */
@@ -34,7 +37,8 @@ final class CommentServiceTest extends TestCase
     {
         parent::setUp();
         $this->commentRepository = $this->createMock(CommentRepository::class);
-        $this->commentService = new CommentService($this->commentRepository);
+        $this->userRepository = $this->createMock(UserRepository::class);
+        $this->commentService = new CommentService($this->commentRepository, $this->userRepository);
     }
 
     public function test_get_comments_for_article(): void

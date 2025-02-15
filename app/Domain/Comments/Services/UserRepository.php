@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @method Collection <int, User> getAll(array $columns = ['*'], array $relations = [])
  * @method bool deleteById(int $modelId)
  */
-final class UserRepository extends BaseRepository
+class UserRepository extends BaseRepository
 {
     public function __construct(User $model)
     {
