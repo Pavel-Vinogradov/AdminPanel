@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Auth;
+namespace Feature\Auth;
 
 use App\Domain\Users\Entities\User;
 use Illuminate\Auth\Events\Verified;

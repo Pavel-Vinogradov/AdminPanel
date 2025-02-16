@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Articles\Repositories;
+namespace Unit;
 
 use App\Domain\Articles\Entities\Article;
+use App\Domain\Articles\Repositories\ArticlesRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use PHPUnit\Framework\MockObject\Exception;

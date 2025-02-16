@@ -7,9 +7,9 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', static fn () => view('welcome'));
+Route::get('/', static fn() => view('welcome'));
 
-Route::get('/dashboard', static fn () => view('dashboard'))->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', static fn() => view('dashboard'))->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -24,5 +24,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
 Route::get('/articles', [ArticleController::class, 'publicIndex'])->name('articles.public.index');
 Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+
+Route::middleware(['xml', 'auth', 'verified']);
 
 require __DIR__ . '/auth.php';
