@@ -9,6 +9,7 @@ use App\Domain\Articles\DTOs\ArticleDTO;
 use App\Domain\Articles\Request\ArticleRequest;
 use App\Domain\Articles\Services\ArticleServiceInterface;
 use App\Domain\Comments\Services\CommentServiceInterface;
+use App\Events\ReactedEvent;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -71,7 +72,6 @@ final class ArticleController extends Controller
         $article = $this->articleService->getById($id);
         $article->increment('views');
         $comments = $this->commentService->getCommentsForArticle($article->id);
-
         return view('articles.show', compact('article', 'comments'));
     }
 

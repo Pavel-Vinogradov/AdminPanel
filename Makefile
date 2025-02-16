@@ -57,7 +57,7 @@ cache-config: ## Кэширование конфигураций
 	${CONSOLE} php artisan view:cache
 
 reverb-serve: ## Запуск WebSocket сервера
-	${CONSOLE} php artisan reverb:serve
+	${CONSOLE} php artisan reverb:start
 
 help: ## Show this help
 	@printf "\033[33m%s:\033[0m\n" 'Available commands'

@@ -173,4 +173,10 @@
             </div>
         </div>
     </body>
+
+
 </html>
+
+<script type="module">
+    Pusher.logToConsole = true;
+</script>

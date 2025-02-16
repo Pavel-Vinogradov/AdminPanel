@@ -48,4 +48,9 @@ final class Comment extends Model
 
         self::observe(CommentObserver::class);
     }
+    public function getCreatedAtAttribute($value): string
+    {
+        return Carbon::parse($value)->format('d.m.Y H:i');
+    }
+
 }

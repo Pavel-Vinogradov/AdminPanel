@@ -10,9 +10,9 @@ final class CommentDTO extends DataTransferObject
 {
     public string $body;
 
-    public ?int $article_id;
+    public ?string $article_id;
 
-    public ?int $parent_id;
+    public ?string $parent_id;
 
-    public ?int $user_id;
+    public ?string $user_id;
 }

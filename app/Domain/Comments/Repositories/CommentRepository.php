@@ -27,7 +27,7 @@ readonly class CommentRepository implements PaginateRepositoryInterface
     {
         return $this->model
             ->newQuery()
-            ->where('article_id', $articleId)
+            ->where('article_id', (string)$articleId)
             ->with(['replies'])
             ->orderBy('created_at', 'asc')
             ->get();

@@ -6,7 +6,7 @@
         <div class="bg-white shadow-lg rounded-lg overflow-hidden p-6">
             <h1 class="text-3xl font-bold mb-4 text-center">{{ $article->title }}</h1>
             <p class="text-gray-500 text-sm text-center mb-4">
-                Опубликовано {{ $article->created_at->format('d.m.Y') }}
+                Опубликовано {{ $article->created_at }}
             </p>
 
             <!-- Изображение статьи -->
@@ -58,7 +58,7 @@
                             <strong>{{ $comment->user ? $comment->user->name : 'Аноним' }}</strong>:
                         </p>
                         <p class="mt-1">{{ $comment->body }}</p>
-                        <p class="text-xs text-gray-500 mt-2">{{ $comment->created_at->format('d.m.Y H:i') }}</p>
+                        <p class="text-xs text-gray-500 mt-2">{{ $comment->created_at }}</p>
 
                         <!-- Ответы на комментарий -->
                         @foreach($comment->replies as $reply)
@@ -67,7 +67,7 @@
                                     <strong>{{ $reply->user ? $reply->user->name : 'Аноним' }}</strong>:
                                 </p>
                                 <p class="mt-1">{{ $reply->body }}</p>
-                                <p class="text-xs text-gray-500 mt-2">{{ $reply->created_at->format('d.m.Y H:i') }}</p>
+                                <p class="text-xs text-gray-500 mt-2">{{ $reply->created_at }}</p>
                             </div>
                         @endforeach
                     </div>
@@ -84,53 +84,55 @@
             </a>
         </div>
     </div>
+
 @endsection
+<script type="module">
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('#commentForm');
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
 
-@section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const form = document.querySelector('#commentForm');
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
+            const body = form.querySelector('textarea[name="body"]').value;
+            const articleId = form.querySelector('input[name="article_id"]').value;
+            const guestName = form.querySelector('input[name="guest_name"]')?.value || 'Аноним';
 
-                const body = form.querySelector('textarea[name="body"]').value;
-                const articleId = form.querySelector('input[name="article_id"]').value;
-                const guestName = form.querySelector('input[name="guest_name"]')?.value || 'Аноним';
-
-                axios.post('{{ route('api.comments.store') }}', {
-                    body: body,
-                    article_id: articleId,
-                    guest_name: guestName
-                }, {
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    }
+            axios.post('{{ route('api.comments.store') }}', {
+                body: body,
+                article_id: articleId,
+                guest_name: guestName
+            }, {
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(function (response) {
+                   // console.log(response)
+                    form.reset();
                 })
-                    .then(function (response) {
-                        console.log(response)
-                        form.reset();
-                    })
-                    .catch(function (error) {
-                        console.error('Ошибка добавления комментария:', error);
-                        alert('Ошибка при добавлении комментария.');
-                    });
-            });
+                .catch(function (error) {
+                    console.error('Ошибка добавления комментария:', error);
+                    alert('Ошибка при добавлении комментария.');
+                });
+        });
 
-            // Прослушивание новых комментариев через Reverb (WebSocket)
-            window.Echo.channel('article.{{ $article->id }}')
-                .listen('CommentAdded', (event) => {
-                    const commentHtml = `
+
+        window.Echo.channel('article.{{ $article->id }}')
+            .listen('CommentAddedEvent', (event) => {
+                const commentHtml = `
                         <div class="bg-white p-4 rounded-lg shadow-sm" id="comment-${event.comment.id}">
                             <p class="text-gray-700">
-                                <strong>${event.comment.user.name}</strong>:
+                                <strong>${event.comment.user?.name || 'Аноним'}</strong>:
                             </p>
                             <p class="mt-1">${event.comment.body}</p>
                             <p class="text-xs text-gray-500 mt-2">${event.comment.created_at}</p>
                         </div>
                     `;
-                    document.querySelector('#commentsContainer').insertAdjacentHTML('beforeend', commentHtml);
-                });
-        });
-    </script>
-@endsection
+                document.querySelector('#commentsContainer').insertAdjacentHTML('beforeend', commentHtml);
+            });
+    });
+
+</script>
+
+
+

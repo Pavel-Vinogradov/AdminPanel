@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Comments\Events;
+namespace App\Events;
 
 use App\Domain\Comments\Entities\Comment;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -22,7 +23,14 @@ final class CommentAddedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PresenceChannel('articles.' . $this->comment->article_id),
+            new Channel('article.' . $this->comment->article_id),
+        ];
+    }
+
+    public function broadcastWith(): array
+    {
+        return [
+            'comment' => $this->comment
         ];
     }
 }
