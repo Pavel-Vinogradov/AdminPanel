@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use JsonException;
 
 final class XmlParserMiddleware
 {
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function handle(Request $request, Closure $next)
     {
