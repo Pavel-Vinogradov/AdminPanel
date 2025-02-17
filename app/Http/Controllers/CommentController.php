@@ -19,6 +19,8 @@ final class CommentController extends Controller
     ) {}
 
     /**
+     * @param CommentRequest $request
+     * @return JsonResponse
      * @throws UnknownProperties
      * @throws ValidationException
      */
