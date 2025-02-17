@@ -20,7 +20,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  *
  * @method static Builder<static>|Article newModelQuery()
- * @method static Builder<static>|Article newQuery()
  * @method static Builder<static>|Article whereContent($value)
  * @method static Builder<static>|Article whereCreatedAt($value)
  * @method static Builder<static>|Article whereId($value)
