@@ -87,6 +87,17 @@ services:
           - "3102:27017"
       restart: unless-stopped
 
+  maxima.admin.mailhog:
+      container_name: maxima.admin.mailhog
+      image: mailhog/mailhog
+      platform: linux/amd64
+      networks:
+          - network1
+      ports:
+          - "1025:1025"
+          - "8025:8025"
+      restart: unless-stopped
+
 volumes:
     maxima.admin.db.data:
     maxima.admin.minio.data:
