@@ -10,7 +10,6 @@ use App\Domain\Comments\Notifications\NewCommentNotification;
 use App\Domain\Comments\Repositories\CommentRepository;
 use App\Events\CommentAddedEvent;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -27,18 +26,19 @@ final readonly class CommentService implements CommentServiceInterface
         if (!$comment) {
             throw new BadRequestHttpException();
         }
+        if ($comment->user_id) {
+            $comment->user = $this->userRepository->findById((int)$comment->user_id);
+        }
         if ($comment->parent_id) {
             $parentComment = $this->commentRepository->findById($comment->parent_id);
-            if ($parentComment && $parentComment->user_id !== Auth::id()) {
+            if ($parentComment && $parentComment->user_id !== $commentDTO->user_id) {
                 Notification::send($parentComment->user, new NewCommentNotification($comment));
             }
         }
 
         // Обновление комментариев в реальном времени
         broadcast(new CommentAddedEvent($comment));
-        if ($comment->user_id) {
-            $comment->user = $this->userRepository->findById((int)$comment->user_id);
-        }
+
         return $comment;
     }
 

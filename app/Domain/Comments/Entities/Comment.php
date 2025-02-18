@@ -47,7 +47,12 @@ final class Comment extends Model
         parent::boot();
 
         self::observe(CommentObserver::class);
+        self::saving(static function ($model): void {
+            $model->created_at = Carbon::now('Europe/Moscow');
+            $model->updated_at = Carbon::now('Europe/Moscow');
+        });
     }
+
     public function getCreatedAtAttribute($value): string
     {
         return Carbon::parse($value)->format('d.m.Y H:i');
