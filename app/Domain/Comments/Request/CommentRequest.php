@@ -12,8 +12,8 @@ final class CommentRequest extends BaseRequest
     {
         return [
             'body' => ['required', 'string', 'max:1000'],
-            'parent_id' => ['nullable', 'int', 'exists:comments,id'],
-            'article_id' => ['int', 'exists:articles,id'],
+            'parent_id' => ['nullable', 'string'],
+            'article_id' => ['string', 'exists:articles,id'],
         ];
     }
 }

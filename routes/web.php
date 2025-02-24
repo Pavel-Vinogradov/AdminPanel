@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +22,6 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
 // Публичные маршруты
 Route::get('/articles', [ArticleController::class, 'publicIndex'])->name('articles.public.index');
 Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
-Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 
 Route::middleware(['xml', 'auth', 'verified']);
 

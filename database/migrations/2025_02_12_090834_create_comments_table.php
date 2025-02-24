@@ -13,7 +13,7 @@ return new class () extends Migration {
             $collection->integer('article_id');
             $collection->integer('user_id');
             $collection->text('body');
-            $collection->string('parent_id')->nullable();
+            $collection->integer('parent_id')->nullable();
             $collection->timestamps();
         });
     }

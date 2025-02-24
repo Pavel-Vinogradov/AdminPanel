@@ -11,7 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 readonly class CommentRepository implements PaginateRepositoryInterface
 {
-    public function __construct(private Comment $model) {}
+    public function __construct(private Comment $model)
+    {
+    }
 
     public function paginate(int $perPage = 20, int $currentPage = 1, array $columns = ['*']): LengthAwarePaginator
     {
@@ -27,7 +29,7 @@ readonly class CommentRepository implements PaginateRepositoryInterface
     {
         return $this->model
             ->newQuery()
-            ->where('article_id', (string)$articleId)
+            ->where('article_id', (string) $articleId)
             ->with(['replies'])
             ->orderBy('created_at', 'asc')
             ->get();
@@ -35,7 +37,7 @@ readonly class CommentRepository implements PaginateRepositoryInterface
 
     public function findById(int $parent_id): ?Comment
     {
-        return $this->model->newQuery()->findOrFail($parent_id);
+        return $this->model->newQuery()->find((string) $parent_id);
     }
 
     public function create(array $attributes): ?Comment

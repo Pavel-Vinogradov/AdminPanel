@@ -20,7 +20,8 @@ final class ArticleController extends Controller
     public function __construct(
         private readonly ArticleServiceInterface $articleService,
         private readonly CommentServiceInterface $commentService,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws UnknownProperties
@@ -70,6 +71,7 @@ final class ArticleController extends Controller
         $article = $this->articleService->getById($id);
         $article->increment('views');
         $comments = $this->commentService->getCommentsForArticle($article->id);
+
         return view('articles.show', compact('article', 'comments'));
     }
 

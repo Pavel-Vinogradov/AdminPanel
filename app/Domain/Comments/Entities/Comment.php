@@ -52,10 +52,4 @@ final class Comment extends Model
             $model->updated_at = Carbon::now('Europe/Moscow');
         });
     }
-
-    public function getCreatedAtAttribute($value): string
-    {
-        return Carbon::parse($value)->format('d.m.Y H:i');
-    }
-
 }

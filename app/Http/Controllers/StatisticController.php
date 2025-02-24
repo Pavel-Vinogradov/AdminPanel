@@ -10,7 +10,5 @@ final class StatisticController extends Controller
 {
     public function index(Request $request): void
     {
-
-
     }
 }

@@ -6,8 +6,8 @@ namespace Feature;
 
 use App\Domain\Users\Entities\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use JsonException;
+use Tests\TestCase;
 
 final class ProfileTest extends TestCase
 {

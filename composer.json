@@ -7,15 +7,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-mongodb": "*",
+        "ext-simplexml": "*",
         "laravel-lang/common": "*",
         "laravel/framework": "^11.31",
         "laravel/reverb": "^1.0",
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "^3.29",
         "mongodb/laravel-mongodb": "^5.1",
-        "tizix/data-transfer-object": "dev-master",
-        "ext-mongodb": "*",
-        "ext-simplexml": "*"
+        "tizix/data-transfer-object": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",

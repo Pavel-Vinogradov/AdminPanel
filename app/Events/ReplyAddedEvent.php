@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Events;
 
 use App\Domain\Comments\Entities\Comment;
+use App\Domain\Comments\Resources\CommentResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-final class CommentAddedEvent implements ShouldBroadcast
+final class ReplyAddedEvent implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
@@ -30,9 +31,8 @@ final class CommentAddedEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
-
         return [
-            'comment' => $this->comment,
+            'comment' => new CommentResource($this->comment),
         ];
     }
 }

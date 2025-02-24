@@ -13,5 +13,4 @@ class ArticleDTO extends DataTransferObject
     public string $content;
 
     public ?string $image = null;
-
 }
