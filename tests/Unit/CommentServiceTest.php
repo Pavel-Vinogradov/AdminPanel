@@ -6,12 +6,12 @@ namespace Unit;
 
 use App\Domain\Comments\DTOs\CommentDTO;
 use App\Domain\Comments\Entities\Comment;
-use App\Domain\Comments\Events\CommentAddedEvent;
 use App\Domain\Comments\Notifications\NewCommentNotification;
 use App\Domain\Comments\Repositories\CommentRepository;
 use App\Domain\Comments\Services\CommentService;
 use App\Domain\Comments\Services\UserRepository;
 use App\Domain\Users\Entities\User;
+use App\Events\CommentAddedEvent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;

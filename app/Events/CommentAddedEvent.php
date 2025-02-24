@@ -19,9 +19,7 @@ final class CommentAddedEvent implements ShouldBroadcast
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public Comment $comment)
-    {
-    }
+    public function __construct(public Comment $comment){}
 
     public function broadcastOn(): array
     {

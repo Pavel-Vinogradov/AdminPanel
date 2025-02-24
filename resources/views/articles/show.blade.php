@@ -62,16 +62,6 @@
                         <p class="mt-1">{{ $comment->body }}</p>
                         <p class="text-xs text-gray-500 mt-2">{{ $comment->created_at }}</p>
 
-                        <!-- Ответы на комментарий -->
-                        @foreach($comment->replies as $reply)
-                            <div class="ml-6 mt-2 bg-gray-200 p-3 rounded-lg">
-                                <p class="text-gray-700">
-                                    <strong>{{ $reply->user ? $reply->user->name : 'Аноним' }}</strong>:
-                                </p>
-                                <p class="mt-1">{{ $reply->body }}</p>
-                                <p class="text-xs text-gray-500 mt-2">{{ $reply->created_at }}</p>
-                            </div>
-                        @endforeach
                     </div>
                 @endforeach
             </div>

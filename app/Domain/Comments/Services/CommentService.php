@@ -19,8 +19,7 @@ final readonly class CommentService implements CommentServiceInterface
     public function __construct(
         public CommentRepository $commentRepository,
         public UserRepository $userRepository
-    ) {
-    }
+    ) {}
 
     public function create(CommentDTO $commentDTO): Comment
     {
