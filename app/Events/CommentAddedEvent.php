@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Events;
 
 use App\Domain\Comments\Entities\Comment;
+use App\Domain\Comments\Resources\CommentResource;
+use App\Domain\Comments\Services\UserRepository;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -31,8 +33,18 @@ final class CommentAddedEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
 
+        if (!$this->comment->user && $this->comment->user_id) {
+            $user = $this->getUserRepository()->findById((int)$this->comment->user_id);
+            $this->comment->user = $user;
+        }
+
         return [
-            'comment' => $this->comment,
+            'comment' => new CommentResource($this->comment),
         ];
+    }
+
+    public function getUserRepository()
+    {
+        return app(UserRepository::class);
     }
 }

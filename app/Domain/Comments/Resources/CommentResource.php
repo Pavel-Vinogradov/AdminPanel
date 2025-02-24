@@ -18,10 +18,11 @@ final class CommentResource extends JsonResource
             'id' => $this->id,
             'article_id' => $this->article_id,
             'body' => $this->body,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'parent_id' => $this->parent_id,
-            'updated_at' => $this->updated_at,
+            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
             'user_id' => $this->user_id,
-            'user' => $this->user ? new UserResource($this->user) : null,        ];
+            'user' => $this->user ? new UserResource($this->user) : null,
+        ];
     }
 }

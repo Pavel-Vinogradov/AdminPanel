@@ -10,6 +10,7 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::connection('mongodb')->create('comments', function (Blueprint $collection): void {
+            $collection->id();
             $collection->integer('article_id');
             $collection->integer('user_id');
             $collection->text('body');

@@ -16,8 +16,7 @@ final class CommentController extends Controller
 {
     public function __construct(
         private readonly CommentServiceInterface $service,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws UnknownProperties
