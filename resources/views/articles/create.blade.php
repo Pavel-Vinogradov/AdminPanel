@@ -3,7 +3,16 @@
 @section('content')
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         <h2 class="text-2xl font-semibold text-gray-900 mb-4">Создать статью</h2>
-
+        {{-- Блок ошибок валидации --}}
+        @if ($errors->any())
+            <div class="bg-red-500 text-white p-4 rounded mb-4">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form action="{{ route('dashboard.articles.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 

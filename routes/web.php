@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\ArticleController;
+use App\Domain\Articles\Controllers\ArticleController;
+use App\Domain\Comments\Notifications\NewCommentNotification;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', static fn () => view('welcome'));
+Route::get('/', static function (){
+    return view('welcome');
+});
 
 Route::get('/dashboard', static fn () => view('dashboard'))->middleware(['auth', 'verified'])->name('dashboard');
 

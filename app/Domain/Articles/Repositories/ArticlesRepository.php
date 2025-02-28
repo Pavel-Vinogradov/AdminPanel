@@ -24,6 +24,12 @@ class ArticlesRepository extends BaseRepository implements PaginateRepositoryInt
         parent::__construct($model);
     }
 
+    /**
+     * @param int $perPage
+     * @param int $currentPage
+     * @param array $columns
+     * @return LengthAwarePaginator
+     */
     public function paginate(int $perPage = 20, int $currentPage = 1, array $columns = ['*']): LengthAwarePaginator
     {
         return $this->model->newQuery()->paginate($perPage, $columns, $currentPage);

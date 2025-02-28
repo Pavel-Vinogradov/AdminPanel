@@ -17,8 +17,7 @@ readonly class ArticleService implements ArticleServiceInterface
 {
     public function __construct(
         private ArticlesRepository $repository
-    ) {
-    }
+    ) {}
 
     public function getAll(): Collection
     {

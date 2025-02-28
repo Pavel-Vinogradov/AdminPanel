@@ -14,7 +14,6 @@ return new class () extends Migration {
             $table->string('title');
             $table->string('content');
             $table->string('image')->nullable();
-            $table->unsignedInteger('views')->nullable()->default(0);
             $table->timestamps();
             $table->comment('Таблица статьей');
         });

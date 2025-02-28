@@ -25,6 +25,10 @@ RUN docker-php-ext-install pdo \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install pcntl
 
+# Установка SOAP
+RUN apt-get update && apt-get install -y libxml2-dev \
+    && docker-php-ext-install soap
+
 # Установка MongoDB
 RUN apt-get update && apt-get install -y libssl-dev \
     && pecl install mongodb \

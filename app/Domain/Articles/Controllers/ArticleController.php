@@ -2,13 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Domain\Articles\Controllers;
 
 use App\Core\DTO\PaginationDTO;
 use App\Domain\Articles\DTOs\ArticleDTO;
 use App\Domain\Articles\Request\ArticleRequest;
 use App\Domain\Articles\Services\ArticleServiceInterface;
 use App\Domain\Comments\Services\CommentServiceInterface;
+use App\Domain\Statistic\DTOs\ViewStatisticDTO;
+use App\Domain\Statistic\Entities\ViewStatistic;
+use App\Domain\Statistic\Services\ViewStatisticInterface;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -20,14 +24,16 @@ final class ArticleController extends Controller
     public function __construct(
         private readonly ArticleServiceInterface $articleService,
         private readonly CommentServiceInterface $commentService,
-    ) {
+        private readonly ViewStatisticInterface $viewStaticService,
+    )
+    {
     }
 
     /**
      * @throws UnknownProperties
      * @throws ValidationException
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $dto = new PaginationDTO($request->toArray());
         $articles = $this->articleService->paginate($dto);
@@ -49,6 +55,7 @@ final class ArticleController extends Controller
      */
     public function store(ArticleRequest $request): RedirectResponse
     {
+        $validated = $request->validated();
         $filePath = null;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -56,7 +63,7 @@ final class ArticleController extends Controller
             $filePath = $file->storeAs('articles', $fileName, 's3');
         }
 
-        $dto = new ArticleDTO($request->toArray());
+        $dto = new ArticleDTO($validated->toArray());
         $dto->image = $filePath;
         $this->articleService->create($dto);
 
@@ -66,12 +73,16 @@ final class ArticleController extends Controller
     /**
      * Display the specified article.
      */
-    public function show(int $id): View
+    public function show(int $id, Request $request): View
     {
         $article = $this->articleService->getById($id);
-        $article->increment('views');
         $comments = $this->commentService->getCommentsForArticle($article->id);
-
+        $viewStatic = new ViewStatisticDTO();
+        $viewStatic->user_id = \Auth::user()->id;
+        $viewStatic->article_id = $article->id;
+        $viewStatic->ip_address = $request->ip();
+        $viewStatic->browser = $request->header('User-Agent');
+        $this->viewStaticService->create($viewStatic);
         return view('articles.show', compact('article', 'comments'));
     }
 

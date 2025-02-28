@@ -17,7 +17,6 @@ final class ArticleFactory extends Factory
             'title' => $this->faker->sentence(20),
             'content' => $this->faker->paragraph(),
             'image' => $this->faker->imageUrl(),
-            'views' => $this->faker->randomDigit(),
         ];
     }
 }

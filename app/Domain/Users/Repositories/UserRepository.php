@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Comments\Services;
+namespace App\Domain\Users\Repositories;
 
 use App\Core\Repositories\BaseRepository;
 use App\Domain\Users\Entities\User;

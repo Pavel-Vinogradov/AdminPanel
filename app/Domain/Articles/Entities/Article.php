@@ -15,7 +15,6 @@ use Illuminate\Support\Carbon;
  * @property string $title
  * @property string $content
  * @property string|null $image
- * @property int $views
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
@@ -37,7 +36,7 @@ class Article extends Model
     protected $table = 'articles';
 
     protected $fillable = [
-        'title', 'content', 'image', 'views',
+        'title', 'content', 'image',
     ];
 
     public function newEloquentBuilder($query): ArticleBuilder

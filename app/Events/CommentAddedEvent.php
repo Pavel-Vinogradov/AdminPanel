@@ -6,7 +6,7 @@ namespace App\Events;
 
 use App\Domain\Comments\Entities\Comment;
 use App\Domain\Comments\Resources\CommentResource;
-use App\Domain\Comments\Services\UserRepository;
+use App\Domain\Users\Repositories\UserRepository;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -19,7 +19,9 @@ final class CommentAddedEvent implements ShouldBroadcast
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public Comment $comment){}
+    public function __construct(public Comment $comment)
+    {
+    }
 
     public function broadcastOn(): array
     {

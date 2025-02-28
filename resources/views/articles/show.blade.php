@@ -85,7 +85,7 @@
 
             const body = form.querySelector('textarea[name="body"]').value;
             const articleId = form.querySelector('input[name="article_id"]').value;
-            const userId = form.querySelector('input[name="user_id"]').value;
+            const userId = form.querySelector('input[name="user_id"]')?.value;
 
             axios.post('{{ route('api.comments.store') }}', {
                 body: body,

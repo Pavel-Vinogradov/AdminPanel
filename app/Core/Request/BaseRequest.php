@@ -21,21 +21,24 @@ abstract class BaseRequest extends FormRequest
 
     protected function failedValidation(Validator $validator): void
     {
-        $errors = (new ValidationException($validator))->errors();
-        $firstErrorKey = array_key_first($errors);
-        $firstErrorMessage = $errors[$firstErrorKey][0] ?? '';
+        if ($this->expectsJson()) {
+            $errors = (new ValidationException($validator))->errors();
+            $firstErrorKey = array_key_first($errors);
+            $firstErrorMessage = $errors[$firstErrorKey][0] ?? '';
 
-        throw new HttpResponseException(
-            response()->json([
-                'status' => false,
-                'errors' => [
-                    [
-                        'type' => 'validation',
-                        'message' => $firstErrorMessage,
-                        'attribute' => $firstErrorKey,
+            throw new HttpResponseException(
+                response()->json([
+                    'status' => false,
+                    'errors' => [
+                        [
+                            'type' => 'validation',
+                            'message' => $firstErrorMessage,
+                            'attribute' => $firstErrorKey,
+                        ],
                     ],
-                ],
-            ], Response::HTTP_UNPROCESSABLE_ENTITY)
-        );
+                ], Response::HTTP_UNPROCESSABLE_ENTITY)
+            );
+        }
+        parent::failedValidation($validator);
     }
 }

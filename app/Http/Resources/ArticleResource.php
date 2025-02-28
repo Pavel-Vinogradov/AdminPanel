@@ -18,7 +18,6 @@ final class ArticleResource extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'image' => $this->image,
-            'views' => $this->views,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

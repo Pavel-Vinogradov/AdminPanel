@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Domain\Comments\Controllers;
 
 use App\Domain\Comments\DTOs\CommentDTO;
 use App\Domain\Comments\Request\CommentRequest;
 use App\Domain\Comments\Resources\CommentResource;
 use App\Domain\Comments\Services\CommentServiceInterface;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Tizix\DataTransferObject\Exceptions\UnknownProperties;
 use Tizix\DataTransferObject\Exceptions\ValidationException;
