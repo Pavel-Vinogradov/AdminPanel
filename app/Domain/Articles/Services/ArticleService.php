@@ -69,7 +69,10 @@ readonly class ArticleService implements ArticleServiceInterface
     {
         return $this->repository->paginate(
             $paginationDTO->perPage,
-            $paginationDTO->currentPage
+            $paginationDTO->currentPage,
+            $paginationDTO->sortBy,
+            $paginationDTO->sortOrder
+
         );
     }
 }

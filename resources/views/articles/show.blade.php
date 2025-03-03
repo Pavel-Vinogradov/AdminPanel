@@ -93,7 +93,6 @@
                 user_id:userId,
             }, {
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     'Content-Type': 'application/json'
                 }
             })

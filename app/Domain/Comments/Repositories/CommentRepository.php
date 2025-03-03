@@ -15,11 +15,15 @@ readonly class CommentRepository implements PaginateRepositoryInterface
     {
     }
 
-    public function paginate(int $perPage = 20, int $currentPage = 1, array $columns = ['*']): LengthAwarePaginator
+    public function paginate(int $perPage = 20, int $currentPage = 1, ?string $sortBy = null, string $sortOrder = 'asc'): LengthAwarePaginator
     {
-        return $this->model
-            ->newQuery()
-            ->paginate($perPage, $columns, 'page', $currentPage);
+        $query = $this->model->newQuery();
+
+        if ($sortBy) {
+            $query->orderBy($sortBy, $sortOrder);
+        }
+
+        return $query->paginate(perPage: $perPage, pageName: $currentPage);
     }
 
     /**
@@ -29,7 +33,7 @@ readonly class CommentRepository implements PaginateRepositoryInterface
     {
         return $this->model
             ->newQuery()
-            ->where('article_id', (string) $articleId)
+            ->where('article_id', (string)$articleId)
             ->with(['replies'])
             ->orderBy('created_at', 'asc')
             ->get();
@@ -37,7 +41,7 @@ readonly class CommentRepository implements PaginateRepositoryInterface
 
     public function findById(int $parent_id): ?Comment
     {
-        return $this->model->newQuery()->find((string) $parent_id);
+        return $this->model->newQuery()->find((string)$parent_id);
     }
 
     public function create(array $attributes): ?Comment

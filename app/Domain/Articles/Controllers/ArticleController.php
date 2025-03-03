@@ -10,11 +10,11 @@ use App\Domain\Articles\Request\ArticleRequest;
 use App\Domain\Articles\Services\ArticleServiceInterface;
 use App\Domain\Comments\Services\CommentServiceInterface;
 use App\Domain\Statistic\DTOs\ViewStatisticDTO;
-use App\Domain\Statistic\Entities\ViewStatistic;
 use App\Domain\Statistic\Services\ViewStatisticInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Tizix\DataTransferObject\Exceptions\UnknownProperties;
 use Tizix\DataTransferObject\Exceptions\ValidationException;
@@ -24,10 +24,8 @@ final class ArticleController extends Controller
     public function __construct(
         private readonly ArticleServiceInterface $articleService,
         private readonly CommentServiceInterface $commentService,
-        private readonly ViewStatisticInterface $viewStaticService,
-    )
-    {
-    }
+        private readonly ViewStatisticInterface  $viewStaticService,
+    ){}
 
     /**
      * @throws UnknownProperties
@@ -35,7 +33,7 @@ final class ArticleController extends Controller
      */
     public function index(Request $request): View
     {
-        $dto = new PaginationDTO($request->toArray());
+        $dto = PaginationDTO::fromRequest($request->toArray());
         $articles = $this->articleService->paginate($dto);
 
         return view('articles.index', compact('articles'));
@@ -55,7 +53,6 @@ final class ArticleController extends Controller
      */
     public function store(ArticleRequest $request): RedirectResponse
     {
-        $validated = $request->validated();
         $filePath = null;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -63,7 +60,7 @@ final class ArticleController extends Controller
             $filePath = $file->storeAs('articles', $fileName, 's3');
         }
 
-        $dto = new ArticleDTO($validated->toArray());
+        $dto = new ArticleDTO($request->toArray());
         $dto->image = $filePath;
         $this->articleService->create($dto);
 
@@ -71,17 +68,19 @@ final class ArticleController extends Controller
     }
 
     /**
-     * Display the specified article.
+     * @throws UnknownProperties
+     * @throws ValidationException
      */
     public function show(int $id, Request $request): View
     {
         $article = $this->articleService->getById($id);
         $comments = $this->commentService->getCommentsForArticle($article->id);
-        $viewStatic = new ViewStatisticDTO();
-        $viewStatic->user_id = \Auth::user()->id;
-        $viewStatic->article_id = $article->id;
-        $viewStatic->ip_address = $request->ip();
-        $viewStatic->browser = $request->header('User-Agent');
+        $viewStatic = new ViewStatisticDTO([
+            'ip_address' => $request->ip(),
+            'browser' => $request->header('User-Agent'),
+            'article_id' => $article->id,
+            'user_id' => Auth::user()->id,
+        ]);
         $this->viewStaticService->create($viewStatic);
         return view('articles.show', compact('article', 'comments'));
     }

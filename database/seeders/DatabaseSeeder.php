@@ -21,8 +21,8 @@ final class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-//        Article::factory(20)->create();
+        Article::factory(30)->create();
         // Comment::factory()->create();
-        ViewStatistic::factory()->count(10)->create();
+//        ViewStatistic::factory()->count(10)->create();
     }
 }

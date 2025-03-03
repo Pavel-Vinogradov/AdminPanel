@@ -17,6 +17,7 @@ return new class () extends Migration {
             $table->integer('user_id');
             $table->string('ip_address');
             $table->string('browser');
+            $table->string('comment_id');
         });
     }
 

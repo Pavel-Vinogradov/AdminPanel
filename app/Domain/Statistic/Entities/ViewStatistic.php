@@ -19,7 +19,8 @@ final class ViewStatistic extends Model
         'viewed_at',
         'user_id',
         'ip_address',
-        'browser'
+        'browser',
+        'comment_id'
     ];
 
     protected array $dates = [
@@ -29,7 +30,7 @@ final class ViewStatistic extends Model
     protected static function boot(): void
     {
         parent::boot();
-        self::creating(function ($model) {
+        self::creating(static function ($model) {
             if (is_null($model->viewed_at)) {
                 $model->viewed_at = now();
             }

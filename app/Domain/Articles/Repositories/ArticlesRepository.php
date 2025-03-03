@@ -27,11 +27,18 @@ class ArticlesRepository extends BaseRepository implements PaginateRepositoryInt
     /**
      * @param int $perPage
      * @param int $currentPage
-     * @param array $columns
+     * @param string|null $sortBy
+     * @param string $sortOrder
      * @return LengthAwarePaginator
      */
-    public function paginate(int $perPage = 20, int $currentPage = 1, array $columns = ['*']): LengthAwarePaginator
+    public function paginate(int $perPage = 20, int $currentPage = 1, ?string $sortBy = null, string $sortOrder = 'asc'): LengthAwarePaginator
     {
-        return $this->model->newQuery()->paginate($perPage, $columns, $currentPage);
+        $query = $this->model->newQuery();
+
+        if ($sortBy) {
+            $query->orderBy($sortBy, $sortOrder);
+        }
+
+        return $query->paginate(perPage: $perPage, pageName: $currentPage);
     }
 }
