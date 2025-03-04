@@ -19,10 +19,11 @@ Route::middleware('auth')->group(function (): void {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::middleware([])->prefix('dashboard')->name('dashboard.')->group(function (): void {
+
+Route::middleware(['auth:sanctum', 'verified'])->prefix('dashboard')->name('dashboard.')->group(function (): void {
     Route::resource('articles', ArticleController::class);
     Route::resource('statistic', StatisticController::class);
-   Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class);
 
 });
 // Публичные маршруты
