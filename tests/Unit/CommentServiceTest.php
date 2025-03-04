@@ -132,6 +132,7 @@ final class CommentServiceTest extends TestCase
     /**
      * @throws UnknownProperties
      * @throws ValidationException
+     * @throws \Exception
      */
     public function test_create_with_parent_comment(): void
     {

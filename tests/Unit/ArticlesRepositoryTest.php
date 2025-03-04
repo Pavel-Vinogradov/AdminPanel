@@ -34,7 +34,8 @@ final class ArticlesRepositoryTest extends TestCase
     {
         $perPage = 20;
         $currentPage = 1;
-        $columns = ['*'];
+        $sortBy = 'created_at';
+        $sortDirection = 'desc';
         $queryBuilderMock = $this->createMock(Builder::class);
         $paginatorMock = $this->createMock(LengthAwarePaginator::class);
         $this->article
@@ -44,10 +45,9 @@ final class ArticlesRepositoryTest extends TestCase
         $queryBuilderMock
             ->expects($this->once())
             ->method('paginate')
-            ->with($perPage, $columns, $currentPage)
             ->willReturn($paginatorMock);
 
-        $result = $this->articlesRepository->paginate($perPage, $currentPage, $columns);
+        $result = $this->articlesRepository->paginate($perPage, $currentPage, $sortBy, $sortDirection);
 
         $this->assertInstanceOf(LengthAwarePaginator::class, $result);
     }
