@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit;
+namespace Tests\Unit;
 
 use App\Domain\Comments\DTOs\CommentDTO;
 use App\Domain\Comments\Entities\Comment;
@@ -12,6 +12,7 @@ use App\Domain\Comments\Services\CommentService;
 use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\UserRepository;
 use App\Events\CommentAddedEvent;
+use App\Events\ReplyAddedEvent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
@@ -146,6 +147,7 @@ final class CommentServiceTest extends TestCase
         $parentComment->id = 1;
         $parentComment->user_id = 3;
         $parentComment->article_id = 1;
+        $parentComment->parent_id = null;
         $parentComment->setRelation('user', $parentUser);
 
         $commentDTO = new CommentDTO([
@@ -171,7 +173,7 @@ final class CommentServiceTest extends TestCase
         $this->commentRepository
             ->expects($this->once())
             ->method('findById')
-            ->with($comment->parent_id)
+            ->with(($comment->parent_id))
             ->willReturn($parentComment);
 
         Auth::shouldReceive('id')->once()->andReturn(2);
@@ -183,5 +185,6 @@ final class CommentServiceTest extends TestCase
 
         Event::assertDispatched(CommentAddedEvent::class);
         Notification::assertSentTo($parentUser, NewCommentNotification::class);
+        Notification::assertSentTo($parentUser, ReplyAddedEvent::class);
     }
 }

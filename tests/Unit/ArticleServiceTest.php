@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit;
+namespace Tests\Unit;
 
 use App\Core\DTO\PaginationDTO;
 use App\Domain\Articles\DTOs\ArticleDTO;

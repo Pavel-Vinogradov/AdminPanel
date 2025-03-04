@@ -20,8 +20,7 @@ final readonly class CommentService implements CommentServiceInterface
     public function __construct(
         public CommentRepository $commentRepository,
         public UserRepository $userRepository
-    ) {
-    }
+    ) {}
 
     public function create(CommentDTO $commentDTO): Comment
     {
@@ -36,6 +35,9 @@ final readonly class CommentService implements CommentServiceInterface
             broadcast(new ReplyAddedEvent($comment));
             $parentComment = $this->commentRepository->findById((int) $comment->parent_id);
             if ($parentComment && $parentComment->user_id !== $commentDTO->user_id) {
+                if ($parentComment->user_id) {
+                    $parentComment->user = $this->userRepository->findById((int) $comment->user_id);
+                }
                 Notification::send($parentComment->user, new NewCommentNotification($comment));
             }
         }
