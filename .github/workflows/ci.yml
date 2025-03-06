@@ -51,7 +51,7 @@ jobs:
 
       - name: Install PHP dependencies
         run: |
-          composer install --no-progress --no-suggest --prefer-dist --ignore-platform-req=ext-mongodb
+          composer install
           cp .env.example .env
           php artisan key:generate
 
