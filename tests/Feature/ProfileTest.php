@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Feature;
+namespace Tests\Feature;
 
 use App\Domain\Users\Entities\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
