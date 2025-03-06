@@ -7,8 +7,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "ext-mongodb": "*",
-        "ext-simplexml": "*",
         "flat3/lodata": "^5.33",
         "laravel-lang/common": "*",
         "laravel/framework": "^11.31",
