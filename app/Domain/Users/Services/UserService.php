@@ -14,8 +14,7 @@ readonly class UserService implements UserServiceInterface
 
     public function __construct(
         private UserRepository $repository,
-    )
-    {}
+    ) {}
 
     public function paginate(PaginationDTO $paginationDTO): LengthAwarePaginator
     {

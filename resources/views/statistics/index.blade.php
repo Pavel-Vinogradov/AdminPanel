@@ -31,6 +31,7 @@
     </div>
 
     <script type="module">
+        import Chart from 'chart.js/auto';
         let chart;
         let activeRange = 'day';
 
@@ -53,6 +54,7 @@
                 })
                 .catch(error => {
                     console.error('Ошибка загрузки данных:', error);
+                    updateTable([]);
                 });
         }
 
@@ -93,13 +95,15 @@
 
         function updateTable(data) {
             const tbody = document.getElementById('statsTable');
-            tbody.innerHTML = data.length ? data.map(d => `
-            <tr>
-                <td class="border px-4 py-2">${d._id}</td>
-                <td class="border px-4 py-2">${d.views}</td>
-                <td class="border px-4 py-2">${d.comments}</td>
-            </tr>
-        `).join('') : `<tr><td colspan="3" class="text-center py-4">Нет данных</td></tr>`;
+            tbody.innerHTML = data.length
+                ? data.map(d => `
+                    <tr>
+                        <td class="border px-4 py-2">${d._id}</td>
+                        <td class="border px-4 py-2">${d.views}</td>
+                        <td class="border px-4 py-2">${d.comments}</td>
+                    </tr>
+                `).join('')
+                : `<tr><td colspan="3" class="text-center py-4">Нет данных</td></tr>`;
         }
 
         fetchStats();
