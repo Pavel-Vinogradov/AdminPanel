@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - base/maxima-admin.yaml
+  - base/pv.yaml
+  - db/postgres-deployment.yaml
+  - db/postgres-service.yaml
+  - php/php-deployment.yaml
+  - php/php-service.yaml
+  - nginx/nginx-deployment.yaml
+  - nginx/nginx-service.yaml
+  - nginx/nginx-configmap.yaml

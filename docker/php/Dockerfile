@@ -66,9 +66,6 @@ WORKDIR /var/www/app
 # Копируем файлы приложения
 COPY . /var/www/app
 
-# Устанавливаем зависимости через Composer
-RUN composer install
-
 # Настраиваем права доступа
 RUN chown -R www-data:www-data /var/www/app \
     && chmod -R 755 /var/www/app
