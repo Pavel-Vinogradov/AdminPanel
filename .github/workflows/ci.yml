@@ -1,0 +1,73 @@
+name: Laravel CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:alpine
+        env:
+          POSTGRES_DB: maxima.admin
+          POSTGRES_USER: maxima.admin
+          POSTGRES_PASSWORD: maxima.admin
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U maxima.admin"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      mongodb:
+        image: mongo:latest
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Fix bootstrap/cache permissions
+        run: |
+          mkdir -p bootstrap/cache
+          chmod -R 777 bootstrap/cache
+
+      - name: Install MongoDB extension
+        run: |
+          sudo add-apt-repository ppa:ondrej/php -y
+          sudo apt-get update
+          sudo apt-get install -y php8.3-mongodb
+          php -m | grep mongodb  # Проверка, что расширение загружено
+
+      - name: Install PHP dependencies
+        run: |
+          composer install --no-interaction --prefer-dist --optimize-autoloader
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Run migrations
+        run: |
+          php artisan migrate --force
+
+      - name: Run PHP Linter
+        run: find . -name "*.php" -not -path "./vendor/*" -exec php -l {} \;
+
+#      - name: Run PHPStan
+#        run: vendor/bin/phpstan analyse --memory-limit=512M
+
+      - name: Run tests
+        run: php artisan test

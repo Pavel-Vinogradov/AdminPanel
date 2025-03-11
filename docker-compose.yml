@@ -1,0 +1,110 @@
+version: "3.8"
+
+services:
+  maxima.admin.nginx:
+    container_name: maxima.admin.nginx
+    networks:
+      - network1
+    ports:
+      - "3100:80"
+    image: nginx:stable-alpine
+    volumes:
+      - ./:/app
+      - ./docker/nginx:/etc/nginx/conf.d
+    depends_on:
+      - maxima.admin.php
+    restart: unless-stopped
+
+  maxima.admin.php:
+    container_name: maxima.admin.php
+    networks:
+      - network1
+    working_dir: /app
+    build:
+      dockerfile: docker/php/Dockerfile
+      context: ./
+    volumes:
+      - ./:/app
+    depends_on:
+      - maxima.admin.db
+    restart: unless-stopped
+    ports:
+        - '8080:8080'
+    dns:
+      - 8.8.8.8
+      - 4.4.4.4
+      - 192.168.0.1
+
+  maxima.admin.db:
+    container_name: maxima.admin.db
+    networks:
+      - network1
+    image: postgres:alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: maxima.admin
+      POSTGRES_USER: maxima.admin
+      POSTGRES_PASSWORD: maxima.admin
+    volumes:
+      - maxima.admin.db.data:/var/lib/postgresql/data
+    ports:
+      - "3101:5432"
+
+  maxima.admin.node:
+    build:
+      context: ./docker/node
+    tty: true
+    volumes:
+      - ./:/var/www/app
+
+  maxima.admin.minio:
+      container_name: maxima.admin.minio
+      image: minio/minio
+      networks:
+          - network1
+      volumes:
+          - maxima.admin.minio.data:/data
+      environment:
+          MINIO_ROOT_USER: minio.admin
+          MINIO_ROOT_PASSWORD: minio.admin
+      ports:
+          - "9000:9000"
+          - "9001:9001" # Добавляем консольный порт
+      command: server --console-address ":9001" /data
+      restart: unless-stopped
+
+  maxima.admin.mongodb:
+      container_name: maxima.admin.mongodb
+      image: mongo:latest
+      networks:
+          - network1
+      environment:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
+      volumes:
+          - maxima.admin.mongodb.data:/data/db
+      ports:
+          - "3102:27017"
+      restart: unless-stopped
+
+  maxima.admin.mailhog:
+      container_name: maxima.admin.mailhog
+      image: mailhog/mailhog
+      platform: linux/amd64
+      networks:
+          - network1
+      ports:
+          - "1025:1025"
+          - "8025:8025"
+      restart: unless-stopped
+
+volumes:
+    maxima.admin.db.data:
+    maxima.admin.minio.data:
+    maxima.admin.mongodb.data:
+
+networks:
+  network1:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
