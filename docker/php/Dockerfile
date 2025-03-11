@@ -60,6 +60,8 @@ RUN touch /usr/local/etc/php/php.ini \
 # Установка Composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+RUN composer install
+
 # Создаём директорию приложения
 WORKDIR /var/www/app
 
