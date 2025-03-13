@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="urn:users"
+             targetNamespace="urn:users">
+
+    <types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                    targetNamespace="urn:users">
+            <xsd:element name="getUserByIdRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getUserByIdResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="user" type="tns:User"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="User">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="email" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </types>
+
+    <message name="getUserByIdRequest">
+        <part name="parameters" element="tns:getUserByIdRequest"/>
+    </message>
+    <message name="getUserByIdResponse">
+        <part name="parameters" element="tns:getUserByIdResponse"/>
+    </message>
+
+    <portType name="UserPortType">
+        <operation name="getUserById">
+            <input message="tns:getUserByIdRequest"/>
+            <output message="tns:getUserByIdResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="UserBinding" type="tns:UserPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getUserById">
+            <soap:operation soapAction="urn:users#getUserById"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="UserService">
+        <port name="UserPort" binding="tns:UserBinding">
+            <soap:address location="http://localhost:3100/users/soap"/>
+        </port>
+    </service>
+</definitions>
