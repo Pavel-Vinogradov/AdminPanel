@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Domain\Users\Services;
 
 use App\Core\DTO\PaginationDTO;
+use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\UserRepository;
-use App\Domain\Users\Services\UserServiceInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class UserService implements UserServiceInterface
 {
@@ -25,5 +26,18 @@ readonly class UserService implements UserServiceInterface
             $paginationDTO->sortOrder
 
         );
+    }
+
+    /**
+     * @param int $id
+     * @return User
+     */
+    public function findByUserId(int $id): User
+    {
+        $user = $this->repository->findById($id);
+        if (!$user) {
+            throw new NotFoundHttpException();
+        }
+        return $user;
     }
 }

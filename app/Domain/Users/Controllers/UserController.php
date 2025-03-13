@@ -7,8 +7,13 @@ use App\Core\DTO\PaginationDTO;
 use App\Domain\Users\Resources\UserResource;
 use App\Domain\Users\Services\UserServiceInterface;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use SoapServer;
 use Tizix\DataTransferObject\Exceptions\UnknownProperties;
 use Tizix\DataTransferObject\Exceptions\ValidationException;
 
@@ -32,5 +37,11 @@ final class UserController extends Controller
         return view('users.index', compact('users'));
     }
 
-
+    public function wsdl(): Response
+    {
+        $wsdl = Storage::disk('public')->get('users.wsdl');
+        return response($wsdl, 200, [
+            'Content-Type' => 'text/xml; charset=utf-8'
+        ]);
+    }
 }

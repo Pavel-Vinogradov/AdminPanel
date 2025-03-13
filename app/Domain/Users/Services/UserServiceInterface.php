@@ -10,4 +10,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface UserServiceInterface
 {
     public function paginate(PaginationDTO $paginationDTO): LengthAwarePaginator;
+
+    public function findByUserId(int $id);
 }
