@@ -60,7 +60,6 @@ RUN touch /usr/local/etc/php/php.ini \
 # Установка Composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-RUN composer install
 
 # Создаём директорию приложения
 WORKDIR /var/www/app
@@ -71,6 +70,8 @@ COPY . /var/www/app
 # Настраиваем права доступа
 RUN chown -R www-data:www-data /var/www/app \
     && chmod -R 755 /var/www/app
+
+RUN composer install --no-scripts --optimize-autoloader
 
 # Команда для запуска PHP-FPM
 CMD ["php-fpm"]
