@@ -30,6 +30,5 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('dashboard')->name('dash
 Route::get('/articles', [ArticleController::class, 'publicIndex'])->name('articles.public.index');
 Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
 
-Route::get('/users/soap/wsdl', [UserController::class, 'wsdl']);
-Route::post('/users/soap', [UserController::class, 'show']);
+Route::get('/users/soap/wsdl', [UserController::class, 'wsdl'])->name('users.soap.wsdl');
 require __DIR__ . '/auth.php';
