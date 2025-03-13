@@ -31,5 +31,5 @@ Route::get('/articles', [ArticleController::class, 'publicIndex'])->name('articl
 Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
 
 Route::get('/users/soap/wsdl', [UserController::class, 'wsdl']);
-
+Route::post('/users/soap', [UserController::class, 'show']);
 require __DIR__ . '/auth.php';

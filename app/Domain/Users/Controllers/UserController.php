@@ -44,4 +44,39 @@ final class UserController extends Controller
             'Content-Type' => 'text/xml; charset=utf-8'
         ]);
     }
+
+    public function show(Request $request): Response
+    {
+        $soapServer = new SoapServer(storage_path('app/public/users.wsdl'));
+
+        $soapServer->setObject(new class {
+            // Метод для обработки запроса getUserByIdRequest
+            public function getUserByIdRequest($params)
+            {
+                $userId = $params['id'];
+                $user = $this->userService->getById($userId);
+
+                // Если пользователь найден, возвращаем его в формате SOAP
+                if ($user) {
+                    return [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                    ];
+                }
+
+                return null;
+            }
+        });
+
+        ob_start();
+        $soapServer->handle();
+        $response = ob_get_clean();
+
+        // Возвращаем ответ на запрос
+        return response($response, 200, [
+            'Content-Type' => 'text/xml; charset=utf-8',
+        ]);
+    }
+
 }
