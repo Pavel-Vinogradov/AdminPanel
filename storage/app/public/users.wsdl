@@ -5,8 +5,7 @@
              targetNamespace="urn:users">
 
     <types>
-        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                    targetNamespace="urn:users">
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:users">
             <xsd:element name="getUserByIdRequest">
                 <xsd:complexType>
                     <xsd:sequence>
@@ -60,7 +59,7 @@
 
     <service name="UserService">
         <port name="UserPort" binding="tns:UserBinding">
-            <soap:address location="http://localhost:3100/users/soap"/>
+            <soap:address location="http://localhost:3100/api/soap/user"/>
         </port>
     </service>
 </definitions>

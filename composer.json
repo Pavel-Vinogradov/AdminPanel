@@ -16,7 +16,8 @@
         "league/flysystem-aws-s3-v3": "^3.29",
         "mongodb/laravel-mongodb": "^5.1",
         "tizix/data-transfer-object": "dev-master",
-        "ext-mongodb": "*"
+        "ext-mongodb": "*",
+        "ext-soap": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",

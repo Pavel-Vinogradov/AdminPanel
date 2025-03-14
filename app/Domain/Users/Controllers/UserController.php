@@ -7,8 +7,6 @@ use App\Core\DTO\PaginationDTO;
 use App\Domain\Users\Resources\UserResource;
 use App\Domain\Users\Services\UserServiceInterface;
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
@@ -37,11 +35,28 @@ final class UserController extends Controller
         return view('users.index', compact('users'));
     }
 
-    public function wsdl(): Response
+    /**
+     * Обработка SOAP-запросов.
+     */
+    public function soap(): Response
     {
-        $wsdl = Storage::disk('public')->get('users.wsdl');
-        return response($wsdl, 200, [
-            'Content-Type' => 'text/xml; charset=utf-8'
+        $wsdlPath = storage_path('app/wsdl/users.wsdl');
+
+        $server = new \SoapServer($wsdlPath, [
+            'cache_wsdl' => WSDL_CACHE_NONE,
+        ]);
+
+        // Привязываем класс с логикой
+        $server->setClass(SoapUserService::class, $this->userService);
+
+        // Обработка входящего SOAP-запроса
+        ob_start();
+        $server->handle();
+        $response = ob_get_clean();
+
+        // Возвращаем ответ клиенту
+        return response($response, 200, [
+            'Content-Type' => 'text/xml; charset=utf-8',
         ]);
     }
 
